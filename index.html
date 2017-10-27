@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+
+<head>
+  <meta charset="utf-8">
+  <title ng-bind="title">ИАМ</title>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+
+  <script src="js/app.js"></script>
+  <script src="js/mainCTRL.js"></script>
+
+  <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+
+  <link rel="stylesheet" href="node_modules/angular-ui-grid/ui-grid.css">
+  <script src="node_modules/angular-ui-grid/ui-grid.min.js"></script>
+
+  <script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+  <script src="node_modules/angular-route/angular-route.min.js"></script>
+  <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+
+  <script src="node_modules/angular-touch/angular-touch.js"></script>
+  <link rel="stylesheet" href="node_modules/bootstrap-2.3.2/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+<div ng-app = "app" ng-controller = "reportCTRL" class="container-fluid">
+  <div class="row-fluid columns">
+    <div class="span2 article-tree">
+
+      <div class="form-group">
+        <label for="name" class="control-label">Название:</label>
+        <div class="control">
+          <input id="name" ng-model="name" type="text" class="control"/>
+        </div>
+      </div>
+
+      <button>Поиск</button>
+    </div>
+    <div class="span10 content-area" style="border-left: 1px solid #ccc;">
+      <div ui-grid="gridOptions"  ui-grid-pagination ui-grid-selection ui-grid-resize-columns class="myGrid" height="450"></div>
+    </div>
+    </div>
+  </div>
+
+</body>
+</html>
