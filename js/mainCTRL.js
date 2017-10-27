@@ -2,8 +2,8 @@
 
 let baseUrl = 'http://localhost:8084/nci/fhir';
 
-app.controller('reportCTRL', ['$scope', '$http', 'uiGridConstants', function($scope, $http, uiGridConstants) {
-
+app.controller('reportCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService', function($scope, $http, uiGridConstants, i18nService) {
+    i18nService.setCurrentLang('ru');
     let paginationOptions = {
         pageNumber: 1,
         pageSize: 25,
@@ -19,15 +19,17 @@ app.controller('reportCTRL', ['$scope', '$http', 'uiGridConstants', function($sc
          paginationPageSizes: [25, 50, 75],
          paginationPageSize: 25,
          useExternalPagination: true,
-         useExternalSorting: true,
          columnDefs: [
-            {field: 'resource.name', displayName: 'Название'}
+             {field: 'resource.name', displayName: 'Название'},
+             {field: 'resource.version', displayName: 'Версия'},
+             {field: 'resource.publisher', displayName: 'Источник'},
+             {field: 'resource.url', displayName: 'URL'},
         ],
 
          onRegisterApi: function(gridApi) {
              $scope.gridApi = gridApi;
              $scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
-                 if (sortColumns.length == 0) {
+                 if (sortColumns.length === 0) {
                      paginationOptions.sort = null;
                  } else {
                      paginationOptions.sort = sortColumns[0].sort.direction;
@@ -43,9 +45,16 @@ app.controller('reportCTRL', ['$scope', '$http', 'uiGridConstants', function($sc
 
      };
 
+    $scope.generateSearchParameters = function () {
+        if ($scope.name !== undefined && $scope.name !== '')
+        return '&name=' + $scope.name;
+    };
+
+
     let getPage = function() {
-        let url;
-        url = baseUrl + '/ValueSet?' + '_page=' + (paginationOptions.pageNumber - 1) + '&_count=' + paginationOptions.pageSize;
+        let url =
+            baseUrl + '/ValueSet?' + '_page=' + (paginationOptions.pageNumber - 1) + '&_count=' + paginationOptions.pageSize +
+            $scope.generateSearchParameters();
 
         $http({
             method: 'GET',
@@ -58,13 +67,15 @@ app.controller('reportCTRL', ['$scope', '$http', 'uiGridConstants', function($sc
             //console.log(url);
         }, function errorCallback(response) {
         });
+    };
 
-
-
+    $scope.search = function () {
+        console.log('123');
+        paginationOptions.pageNumber = 1;
+        getPage();
 
     };
 
     getPage();
-
 
 }]);
