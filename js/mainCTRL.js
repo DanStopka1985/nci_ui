@@ -10,7 +10,8 @@ app.controller('reportCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService
         sort: null
     };
 
-     $scope.myData = [{resource: {name:'123'}}];
+    $scope.refType = 'ValueSet';
+     //$scope.myData = [{resource: {name:'123'}}];
      $scope.gridOptions = {
          data: 'myData',
          enableRowHeaderSelection: false,
@@ -46,34 +47,37 @@ app.controller('reportCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService
      };
 
     $scope.generateSearchParameters = function () {
+        let r = '';
         if ($scope.name !== undefined && $scope.name !== '')
-        return '&name=' + $scope.name;
+            r += '&name=' + $scope.name;
+        if ($scope.publisher !== undefined && $scope.publisher !== '')
+            r += '&publisher=' + $scope.publisher;
+        if ($scope.version !== undefined && $scope.version !== '')
+            r += '&version=' + $scope.version;
+        return r;
     };
 
 
     let getPage = function() {
         let url =
-            baseUrl + '/ValueSet?' + '_page=' + (paginationOptions.pageNumber - 1) + '&_count=' + paginationOptions.pageSize +
+            baseUrl + '/' + $scope.refType + '?' + '_page=' + (paginationOptions.pageNumber - 1) + '&_count=' + paginationOptions.pageSize +
             $scope.generateSearchParameters();
 
         $http({
             method: 'GET',
             url: url
         }).then(function successCallback(response) {
-            console.log('get', paginationOptions.pageNumber);
             $scope.gridOptions.totalItems = response.data.total;
-            var firstRow = (paginationOptions.pageNumber - 1) * paginationOptions.pageSize;
+            let firstRow = (paginationOptions.pageNumber - 1) * paginationOptions.pageSize;
             $scope.myData = response.data.entry;
-            //console.log(url);
         }, function errorCallback(response) {
         });
     };
 
     $scope.search = function () {
-        console.log('123');
         paginationOptions.pageNumber = 1;
         getPage();
-
+        console.log($scope.refType);
     };
 
     getPage();

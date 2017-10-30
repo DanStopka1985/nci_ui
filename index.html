@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title ng-bind="title">ИАМ</title>
+  <title ng-bind="title">НСИ</title>
   <link rel="stylesheet" type="text/css" href="style.css"/>
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 
@@ -25,7 +25,6 @@
   <script src="node_modules/angular-touch/angular-touch.js"></script>
   <link rel="stylesheet" href="node_modules/bootstrap-2.3.2/css/bootstrap.min.css">
 
-
 </head>
 
 <body>
@@ -34,10 +33,27 @@
   <div class="row-fluid columns">
     <div class="span2 article-tree">
 
+      <label class="radio-inline"><input type="radio" name="optradio" ng-model="refType" value="ValueSet">ValueSet</label>
+      <label class="radio-inline"><input type="radio" name="optradio" ng-model="refType" value="CodeSystem">CodeSystem</label>
+
       <div class="form-group">
         <label for="name" class="control-label">Название:</label>
         <div class="control">
           <input id="name" ng-model="name" type="text" class="control"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="publisher" class="control-label">Источник:</label>
+        <div class="control">
+          <input id="publisher" ng-model="publisher" type="text" class="control"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="version" class="control-label">Версия:</label>
+        <div class="control">
+          <input id="version" ng-model="version" type="text" class="control"/>
         </div>
       </div>
 
