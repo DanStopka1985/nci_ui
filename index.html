@@ -24,12 +24,14 @@
 
   <script src="node_modules/angular-touch/angular-touch.js"></script>
   <link rel="stylesheet" href="node_modules/bootstrap-2.3.2/css/bootstrap.min.css">
+  <script src="js/historyCTRL.js"></script>
 
 </head>
 
-<body>
+<body ng-app = "app" ng-controller = "mainCTRL">
 
-<div ng-app = "app" ng-controller = "reportCTRL" class="container-fluid">
+<div class="container-fluid">
+
   <div class="row-fluid columns">
     <div class="span2 article-tree">
 
@@ -60,9 +62,16 @@
       <button ng-click="search()">Поиск</button>
     </div>
     <div class="span10 content-area" style="border-left: 1px solid #ccc;">
+
+      <button ng-click="goToVersions('#!temp')">Перейти к списку версий</button>
+      <div ng-view></div>
+
       <div ui-grid="gridOptions"  ui-grid-pagination ui-grid-selection ui-grid-resize-columns class="myGrid" height="450"></div>
     </div>
     </div>
+
+
+
   </div>
 
 </body>

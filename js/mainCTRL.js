@@ -2,7 +2,7 @@
 
 let baseUrl = 'http://localhost:8084/nci/fhir';
 
-app.controller('reportCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService', function($scope, $http, uiGridConstants, i18nService) {
+app.controller('mainCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService', '$window', function($scope, $http, uiGridConstants, i18nService, $window) {
     i18nService.setCurrentLang('ru');
     let paginationOptions = {
         pageNumber: 1,
@@ -11,7 +11,6 @@ app.controller('reportCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService
     };
 
     $scope.refType = 'ValueSet';
-     //$scope.myData = [{resource: {name:'123'}}];
      $scope.gridOptions = {
          data: 'myData',
          enableRowHeaderSelection: false,
@@ -81,5 +80,9 @@ app.controller('reportCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService
     };
 
     getPage();
+
+    $scope.goToVersions = function (a) {
+        $window.location.href = a;
+    }
 
 }]);
