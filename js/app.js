@@ -9,7 +9,7 @@ app.config(['$routeProvider',
             title: 'Главная',
             controller: 'mainCTRL'
         }).
-        when('/temp', {
+        when('/:refType/:refId/history', {
             templateUrl: 'partials/history.html',
             title: 'Список версий',
             controller: 'historyCTRL'
