@@ -11,39 +11,37 @@ app.controller('mainCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService',
     };
 
     $scope.refType = 'ValueSet';
-     $scope.gridOptions = {
-         data: 'myData',
-         enableRowHeaderSelection: false,
-         multiSelect : false,
-         enableFiltering: true,
-         paginationPageSizes: [25, 50, 75],
-         paginationPageSize: 25,
-         useExternalPagination: true,
-         columnDefs: [
-             {field: 'resource.name', displayName: 'Название'},
-             {field: 'resource.version', displayName: 'Версия'},
-             {field: 'resource.publisher', displayName: 'Источник'},
-             {field: 'resource.url', displayName: 'URL'},
+    $scope.gridOptions = {
+        data: 'myData',
+        enableRowHeaderSelection: false,
+        multiSelect: false,
+        enableFiltering: true,
+        paginationPageSizes: [25, 50, 75],
+        paginationPageSize: 25,
+        useExternalPagination: true,
+        columnDefs: [
+            {field: 'resource.name', displayName: 'Название'},
+            {field: 'resource.version', displayName: 'Версия'},
+            {field: 'resource.publisher', displayName: 'Источник'},
+            {field: 'resource.url', displayName: 'URL'},
         ],
+        onRegisterApi: function(gridApi) {
+            $scope.gridApi = gridApi;
+            $scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
+                if (sortColumns.length === 0) {
+                    paginationOptions.sort = null;
+                } else
+                    paginationOptions.sort = sortColumns[0].sort.direction;
+                getPage();
+         });
+         gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+             paginationOptions.pageNumber = newPage;
+             paginationOptions.pageSize = pageSize;
+             getPage();
+         });
+     }
 
-         onRegisterApi: function(gridApi) {
-             $scope.gridApi = gridApi;
-             $scope.gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
-                 if (sortColumns.length === 0) {
-                     paginationOptions.sort = null;
-                 } else {
-                     paginationOptions.sort = sortColumns[0].sort.direction;
-                 }
-                 getPage();
-             });
-             gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-                 paginationOptions.pageNumber = newPage;
-                 paginationOptions.pageSize = pageSize;
-                 getPage();
-             });
-         }
-
-     };
+    };
 
     $scope.generateSearchParameters = function () {
         let r = '';
@@ -81,8 +79,13 @@ app.controller('mainCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService',
 
     getPage();
 
-    $scope.goToVersions = function (a) {
-        $window.location.href = a;
+    $scope.goToVersions = function () {
+        console.log($scope.gridApi.selection.getSelectedRows()[0].resource.id);
+
+        let x = '#!' + $scope.refType + '/1/history';
+        $window.location.href = x;
+
+
     }
 
 }]);
