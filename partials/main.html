@@ -31,7 +31,7 @@
         </div>
         <div class="span10 content-area" style="border-left: 1px solid #ccc;">
 
-            <button ng-disable = "undefined !== $scope.gridApi.selection.getSelectedRows()[0].resource.id" ng-click="goToVersions()">Перейти к списку версий</button>
+            <button ng-disabled = "selected1Row() === false" ng-click="goToHistory()">Перейти к списку версий</button>
 
             <div ui-grid="gridOptions"  ui-grid-pagination ui-grid-selection ui-grid-resize-columns class="myGrid" height="450"></div>
         </div>

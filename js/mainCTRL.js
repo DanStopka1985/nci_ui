@@ -79,13 +79,15 @@ app.controller('mainCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService',
 
     getPage();
 
-    $scope.goToVersions = function () {
-        console.log($scope.gridApi.selection.getSelectedRows()[0].resource.id);
-
-        let x = '#!' + $scope.refType + '/1/history';
+    $scope.goToHistory = function () {
+        let x = '#!' + $scope.refType + '/' + $scope.gridApi.selection.getSelectedRows()[0].resource.id + '/history';
         $window.location.href = x;
 
 
+    };
+    $scope.selected1Row = function () {
+        return  $scope.gridApi.selection.getSelectedRows()[0] !== undefined;
     }
+
 
 }]);
