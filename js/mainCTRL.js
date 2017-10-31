@@ -82,7 +82,7 @@ app.controller('mainCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService',
     getPage();
 
     $scope.goToHistory = function () {
-        let history_url = baseUrl + '/' + foundedRefType + '/' + $scope.gridApi.selection.getSelectedRows()[0].resource.id + '/_history'
+        let history_url = baseUrl + '/' + foundedRefType + '/' + $scope.gridApi.selection.getSelectedRows()[0].resource.id + '/_history';
         $http({
             method: 'GET',
             url: history_url
