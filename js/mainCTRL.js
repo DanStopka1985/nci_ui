@@ -3,6 +3,7 @@
 let baseUrl = 'http://localhost:8084/nci/fhir';
 
 app.controller('mainCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService', '$window', function($scope, $http, uiGridConstants, i18nService, $window) {
+    let foundedRefType = '';
     i18nService.setCurrentLang('ru');
     let paginationOptions = {
         pageNumber: 1,
@@ -56,6 +57,7 @@ app.controller('mainCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService',
 
 
     let getPage = function() {
+        foundedRefType = $scope.refType;
         let url =
             baseUrl + '/' + $scope.refType + '?' + '_page=' + (paginationOptions.pageNumber - 1) + '&_count=' + paginationOptions.pageSize +
             $scope.generateSearchParameters();
@@ -80,14 +82,20 @@ app.controller('mainCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService',
     getPage();
 
     $scope.goToHistory = function () {
-        let x = '#!' + $scope.refType + '/' + $scope.gridApi.selection.getSelectedRows()[0].resource.id + '/history';
-        $window.location.href = x;
-
-
+        let history_url = baseUrl + '/' + foundedRefType + '/' + $scope.gridApi.selection.getSelectedRows()[0].resource.id + '/_history'
+        $http({
+            method: 'GET',
+            url: history_url
+        }).then(function successCallback(response) {
+            let x = '#!' + foundedRefType + '/' + $scope.gridApi.selection.getSelectedRows()[0].resource.id + '/history';
+            $window.location.href = x;
+        }, function errorCallback(response) {
+        });
     };
+
     $scope.selected1Row = function () {
         return  $scope.gridApi.selection.getSelectedRows()[0] !== undefined;
-    }
+    };
 
 
 }]);
