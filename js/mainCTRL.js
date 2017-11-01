@@ -1,7 +1,7 @@
 'use strict';
 
-let baseUrl = 'http://localhost:8084/nci/fhir';
-
+//let baseUrl = 'http://localhost:8084/nci/fhir';
+let baseUrl = 'https://ibus.is-mis.ru/fhir/baseDstu3'
 app.controller('mainCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService', '$window', function($scope, $http, uiGridConstants, i18nService, $window) {
     let foundedRefType = '';
     i18nService.setCurrentLang('ru');
@@ -97,5 +97,20 @@ app.controller('mainCTRL', ['$scope', '$http', 'uiGridConstants', 'i18nService',
         return  $scope.gridApi.selection.getSelectedRows()[0] !== undefined;
     };
 
+    $scope.goToValueSetExpansion = function () {
+        $http({
+            method: 'GET',
+            url: baseUrl + '/ValueSet/' + $scope.gridApi.selection.getSelectedRows()[0].resource.id + '/$expand'
+        }).then(function successCallback(response) {
+            console.log(response.data);
+/*            let x = '#!' + foundedRefType + '/' + $scope.gridApi.selection.getSelectedRows()[0].resource.id + '/history';
+            $window.location.href = x;*/
+        }, function errorCallback(response) {
+        });
+    };
+
+    $scope.goToFhirResource = function () {
+        $window.open(baseUrl + '/ValueSet/' + $scope.gridApi.selection.getSelectedRows()[0].resource.id /*+ '/$expand'*/, '_blank');
+    }
 
 }]);
